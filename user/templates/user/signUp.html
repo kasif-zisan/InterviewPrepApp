@@ -2,13 +2,13 @@
 {% block title %}Login{% endblock %} 
 {% block content%}
 
-    <h1 class="display-4 ms-2">Sign Up</h1>
-    <div class="ms-2">
+    <h1 class="display-4 col-auto text-center">Sign Up</h1>
+    <div class="col-auto">
         <form method="POST">
             {% csrf_token %}
-            {{form.as_p}}
+            {{form.as_table}}
             <p class="text-danger"><strong>{{error}}</strong></p>
-            <button type="submit">Sign In</button>
+            <button class="btn btn-primary" type="submit">Sign In</button>
         </form>
     </div>
 
