@@ -9,20 +9,17 @@ class Tag(models.Model):
 class Post(models.Model):
     title = models.CharField(max_length=256)
     text = models.TextField()
-    image = models.ImageField()
+    image = models.ImageField(blank=True)
     bump = models.IntegerField()
     time = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE
     )
-    tag = models.ManyToManyField(
-        Tag,
-    )
  
  
 class Comments(models.Model):
     text = models.CharField(max_length=256)
-    image = models.ImageField()
+    image = models.ImageField(blank=True)
     bump = models.IntegerField()
     time = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(
