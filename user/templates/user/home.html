@@ -1,9 +1,15 @@
 {% extends 'user/base.html' %}
+{% block title %}Home{% endblock %}
 {% block content %}
 
-<p>hello this is ZarCode</p>
 
-<p>Here we will have intro of the app and stuffs</p>
-
+<ul class="list-group list-group-flush" id="posts">
+    {% for post in posts_all%}
+    <div align="center">
+        <h3>{{ post.title }}</h3>
+        <a>{{ post.text }}</s>
+    </div>
+    {% endfor %}
+</ul>
 
 {% endblock %}
