@@ -4,9 +4,12 @@ from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.contrib.auth import login,logout, authenticate
 from .forms import SignUpForm, LoginForm
-# Create your views here.
+
+
 def home(request):
     return render(request, 'user/home.html')
+
+
 def signUp(request):
     if request.method=="GET":
         return render(request, 'user/signUp.html', {'form' : SignUpForm()})
@@ -22,6 +25,8 @@ def signUp(request):
 
         else:
             return render(request, 'user/signUp.html', {'form' : SignUpForm(), 'error': "Passwords did not match. Please input the passwords correctly."})
+
+
 def logIn(request):
     if request.method=="GET":
         return render(request, 'user/login.html', {'form' : LoginForm()})
@@ -32,10 +37,16 @@ def logIn(request):
         else:
             login(request, user)
             return redirect('profile')
+
+
 def logOut(request):
     logout(request)
     return redirect('home')
+
+
 def profile(request):
     return render(request, 'user/profile.html')
+
+
 def about(request):
     return render(request, 'user/about.html')
