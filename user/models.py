@@ -9,7 +9,7 @@ class Tag(models.Model):
 class Post(models.Model):
     title = models.CharField(max_length=256)
     text = models.TextField()
-    image = models.ImageField(blank=True)
+    image = models.ImageField(blank=True, upload_to = 'user/images/')
     bump = models.IntegerField()
     time = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(
