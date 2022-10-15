@@ -1,0 +1,31 @@
+{% extends 'user/base.html' %}
+{% block title %}Post{% endblock %}
+{% block content %}
+
+this is new post
+
+<form method="POST">
+    {% csrf_token %}
+    <div class="form-group" >
+        <label for="title">Title</label>
+        <input 
+            type="text" 
+            class="form-control" 
+            id="title"
+            name="title"
+            placeholder="Enter Post Title"
+            />
+    </div>
+    <div class="form-group">
+        <label for="Body">Body</label>
+        <textarea 
+            name="body" 
+            id="body" 
+            class="form-control">
+        </textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Post</button>
+</form>
+
+
+{% endblock %}

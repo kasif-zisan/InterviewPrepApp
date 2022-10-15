@@ -1,4 +1,25 @@
 {% extends 'user/base.html' %}
+{% block title %}Profile{% endblock %}
 {% block content %}
 here we will have the user profile, so profile picture, name and the whole profile will show up here, in the corner we will have a sidebar from where user can access post feed, and from there post and user wil be connected.
+
+
+<form action="{% url 'new-post' %}">
+    <button class="btn btn-primary" type="submit">New Post</button>
+</form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 {% endblock %}
