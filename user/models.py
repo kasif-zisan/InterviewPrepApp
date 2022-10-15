@@ -15,6 +15,9 @@ class Post(models.Model):
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE
     )
+    tag = models.ManyToManyField(
+        Tag, related_name = 'post'
+    )
  
  
 class Comments(models.Model):
