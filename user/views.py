@@ -3,11 +3,13 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.contrib.auth import login,logout, authenticate
+from user.models import Tag, Post, Comments
 from .forms import SignUpForm, LoginForm
 
 
 def home(request):
-    return render(request, 'user/home.html')
+    posts_all = Post.objects.all()
+    return render(request, 'user/home.html', {'posts_all':posts_all})
 
 
 def signUp(request):
@@ -50,3 +52,14 @@ def profile(request):
 
 def about(request):
     return render(request, 'user/about.html')
+
+
+def new_post(request):
+    if request.method == "POST":
+        post = Post()
+        post.title = request.POST["title"]
+        post.text = request.POST["body"]
+        post.bump = 0
+        #post.save()
+        #post.objects.create()
+    return render(request, 'user/newpost.html')

@@ -5,9 +5,9 @@ from base64 import b64encode, b64decode
 
 
 class AESCipher(object):
-    def __init__(self, key):
+    def __init__(self):
         self.block_size = AES.block_size
-        self.key = hashlib.sha256(key.encode()).digest()
+        self.key = hashlib.sha256("_ZARCODE_".encode()).digest()
 
 
     def encrypt(self, plain_text):

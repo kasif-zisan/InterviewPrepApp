@@ -16,7 +16,7 @@ class Post(models.Model):
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE
     )
     tag = models.ManyToManyField(
-        Tag, related_name = 'post'
+        Tag, related_name = 'post', blank=True
     )
  
  
