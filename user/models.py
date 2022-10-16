@@ -1,7 +1,6 @@
 from django.conf import settings
 from django.db import models
  
- 
 class Tag(models.Model):
     tag_name = models.CharField(max_length=256)
  
@@ -12,6 +11,7 @@ class Post(models.Model):
     image = models.ImageField(blank=True, upload_to = 'user/images/')
     bump = models.IntegerField()
     time = models.DateTimeField(auto_now_add=True)
+    date = models.DateField()
     author = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE
     )

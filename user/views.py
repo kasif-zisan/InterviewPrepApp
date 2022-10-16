@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.db import IntegrityError
@@ -8,8 +8,7 @@ from .forms import SignUpForm, LoginForm
 from .models import Post
 
 def home(request):
-    posts_all = Post.objects.all()
-    return render(request, 'user/home.html', {'posts_all':posts_all})
+    return render(request, 'user/home.html')
 
 
 def signUp(request):
@@ -67,3 +66,7 @@ def new_post(request):
 def feed (request):
     posts = Post.objects.all()
     return render(request, 'user/feed.html', {'posts' : posts})
+
+def postdetails(request, post_id):
+    post = get_object_or_404(Post, pk = post_id)
+    return render(request, 'user/details.html', {'post' : post})
