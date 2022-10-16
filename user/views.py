@@ -5,7 +5,7 @@ from django.db import IntegrityError
 from django.contrib.auth import login,logout, authenticate
 from user.models import Tag, Post, Comments
 from .forms import SignUpForm, LoginForm
-
+from .models import Post
 
 def home(request):
     posts_all = Post.objects.all()
@@ -63,3 +63,7 @@ def new_post(request):
         #post.save()
         #post.objects.create()
     return render(request, 'user/newpost.html')
+
+def feed (request):
+    posts = Post.objects.all()
+    return render(request, 'user/feed.html', {'posts' : posts})
