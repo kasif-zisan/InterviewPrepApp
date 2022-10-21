@@ -1,5 +1,7 @@
 from django.urls import path, include
 from user import views
+from .views import new_post
+
 
 urlpatterns = [
     path('',views.home, name="home"),
@@ -8,7 +10,7 @@ urlpatterns = [
     path('login/', views.logIn, name='login'),
     path('profile/', views.profile, name='profile'),
     path('about/', views.about, name='about'),
-    path('newpost/', views.new_post, name='new-post'),
+    path('newpost/', new_post.as_view(), name='new-post'),
     path('feed/',views.feed, name='feed'),
     path('<int:post_id>/', views.postdetails, name = 'details'),
 ]

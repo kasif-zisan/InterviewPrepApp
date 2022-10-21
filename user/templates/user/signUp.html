@@ -3,10 +3,11 @@
 {% block content%}
 
     <h1 class="display-4 col-auto text-center">Sign Up</h1>
+    
     <div class="col-auto">
         <form method="POST">
             {% csrf_token %}
-            {{form.as_table}}
+            {{form.as_p}}
             <p class="text-danger"><strong>{{error}}</strong></p>
             <button class="btn btn-primary" type="submit">Sign In</button>
         </form>

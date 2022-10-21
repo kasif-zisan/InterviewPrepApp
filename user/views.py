@@ -4,8 +4,10 @@ from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.contrib.auth import login,logout, authenticate
 from user.models import Tag, Post, Comments
-from .forms import SignUpForm, LoginForm
+from .forms import SignUpForm, LoginForm, PostForm
 from .models import Post
+from django.views.generic import CreateView
+
 
 def home(request):
     return render(request, 'user/home.html')
@@ -53,7 +55,7 @@ def about(request):
     return render(request, 'user/about.html')
 
 
-def new_post(request):
+'''def new_post(request):
     if request.method == "POST":
         post = Post()
         post.title = request.POST["title"]
@@ -61,7 +63,13 @@ def new_post(request):
         post.bump = 0
         #post.save()
         #post.objects.create()
-    return render(request, 'user/newpost.html')
+    return render(request, 'user/newpost.html')'''
+
+class new_post(CreateView):
+    model = Post
+    form_class = PostForm
+    template_name= 'user/newpost.html'
+    
 
 def feed (request):
     posts = Post.objects.all()

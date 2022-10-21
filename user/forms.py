@@ -1,7 +1,10 @@
+from dataclasses import fields
+from pyexpat import model
 from tkinter import Widget
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django import forms
+from .models import Post
 
 
 class SignUpForm(UserCreationForm):
@@ -29,3 +32,16 @@ class LoginForm(AuthenticationForm):
         super(LoginForm, self).__init__(*args, **kwargs)
         self.fields['username'].widget.attrs['class'] = 'form-control'
         self.fields['password'].widget.attrs['class'] = 'form-control'
+
+class PostForm(forms.ModelForm):
+    
+    class Meta:
+        model = Post
+        fields = ('title', 'text', 'image', 'date', 'author', 'bump')
+        widgets = {
+            'title' :  forms.TextInput(attrs={'class': 'form-control'}),
+            'text' : forms.Textarea(attrs={'class': 'form-control'}),
+            'date' : forms.DateInput(attrs={'class': 'form-control'}),
+            'author' : forms.TextInput(attrs={'class': 'form-control', 'id' : 'author-form', 'value' : '', 'type' : 'hidden'}),
+        }
+    
