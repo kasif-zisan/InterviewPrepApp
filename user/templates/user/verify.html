@@ -1,0 +1,22 @@
+{% extends 'user/base.html' %}
+{% block title %}Sign up{% endblock %}
+{% block content %}
+
+<form method="POST">
+    <div class="form-group">
+        <label for="check">Enter Verification Code</label>
+        <textarea 
+            name="check" 
+            id="check" 
+            class="form-control">
+        </textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Enter</button>
+</form>
+
+
+
+
+
+
+{% endblock %}

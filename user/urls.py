@@ -11,4 +11,5 @@ urlpatterns = [
     path('newpost/', views.new_post, name='new-post'),
     path('feed/',views.feed, name='feed'),
     path('<int:post_id>/', views.postdetails, name = 'details'),
+    path('verify/', views.verify, name='verify')
 ]
