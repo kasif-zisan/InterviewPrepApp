@@ -3,14 +3,9 @@
 {% block content %}
 
 <form method="POST">
-    <div class="form-group">
+    {% csrf_token %}
         <label for="check">Enter Verification Code</label>
-        <textarea 
-            name="check" 
-            id="check" 
-            class="form-control">
-        </textarea>
-    </div>
+        <textarea name="check" id="check" class="form-control"></textarea>
     <button type="submit" class="btn btn-primary">Enter</button>
 </form>
 

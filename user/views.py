@@ -1,28 +1,38 @@
-from audioop import add
-from cmath import log
-from hashlib import new
-from pickle import NONE
+import random
+from urllib import request
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.core.mail import EmailMessage
 from django.db import IntegrityError
 from django.contrib.auth import login,logout, authenticate
+from django.views.generic import CreateView
+import user
 from user.models import Tag, Post, Comments
-from .forms import SignUpForm, LoginForm
+from .forms import SignUpForm, LoginForm, PostForm
 from .models import Post
-import os
 
-def verify(request, user, address):
-    print("vai kaaz kor")
-    code = str(os.urandom(8))
-    email = EmailMessage("Activation Code", "Your activation code is " + code, to = [address])
-    email.send()
-    check = request.POST.get('check', NONE)
-    if check == code:
-        user.save()
-        login(request, user)
-        return redirect('profile')
+def verify(request):
+    username = request.session['username']
+    password = request.session['password']
+    email = request.session['email']
+    #print(username)
+    #print(password)
+    #print(email)
+    if request.method == "GET":
+        verification_code = str(random.randrange(1000,9999))
+        request.session['verification_code'] = verification_code
+        send_code = EmailMessage("Activation Code", "Your activation code is " + verification_code, to=[email])
+        send_code.send()
+        return render(request, 'user/verify.html')
+    else:
+        code = request.session['verification_code']
+        #print(code)
+        if request.POST['check'] == code:
+            new_user = User.objects.create_user(username, password = password)
+            new_user.save()
+            login(request, new_user)
+            return redirect('profile')
     return render(request, 'user/verify.html')
 
 def home(request):
@@ -33,18 +43,21 @@ def signUp(request):
     if request.method=="GET":
         return render(request, 'user/signUp.html', {'form' : SignUpForm()})
     else:
-        print(request.POST['password1'])
-        print(request.POST['password2'])
         try:
-            if request.POST['password1'] == request.POST['password2'] or request.POST['password1'] != request.POST['password2']:
-                new_user = User.objects.create_user(request.POST['username'], password = request.POST['password1'])
+            if request.POST['password1'] == request.POST['password2']:
+                username = request.POST['username']
+                password = request.POST['password1']
+                email = request.POST['email']
+                request.session['username'] = username
+                request.session['password'] = password
+                request.session['email'] = email
+                #new_user = User.objects.create_user(request.POST['username'], password = request.POST['password1'])
                 #new_user.save()
                 #login(request, new_user)
                 #verify(request, new_user, new_user.email)
-                return redirect('user:verify', new_user, new_user.email)
+                return redirect('verify')
         except IntegrityError:
              return render(request, 'user/signUp.html', {'form' : SignUpForm(), 'error': "This username is already taken. Please try a new username."})
-
         else:
             return render(request, 'user/signUp.html', {'form' : SignUpForm(), 'error': "Passwords did not match. Please input the passwords correctly."})
 
@@ -74,7 +87,7 @@ def about(request):
     return render(request, 'user/about.html')
 
 
-def new_post(request):
+'''def new_post(request):
     if request.method == "POST":
         post = Post()
         post.title = request.POST["title"]
@@ -82,7 +95,13 @@ def new_post(request):
         post.bump = 0
         #post.save()
         #post.objects.create()
-    return render(request, 'user/newpost.html')
+    return render(request, 'user/newpost.html')'''
+
+class new_post(CreateView):
+    model = Post
+    form_class = PostForm
+    template_name= 'user/newpost.html'
+    
 
 def feed (request):
     posts = Post.objects.all()

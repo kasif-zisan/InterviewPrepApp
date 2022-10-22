@@ -1,5 +1,7 @@
 {% extends 'user/base.html' %}
+{% block title %}Post Feed{% endblock %}
 {% block content%}
+{% if user.is_authenticated %}
     {% for post in posts %}
         
         <h1>{{post.title}}</h1>
@@ -14,4 +16,7 @@
         {% endif %}
         
         {% endfor %}
+{% else %}
+Please log in 
+{% endif %}
 {% endblock %}
