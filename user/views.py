@@ -1,5 +1,4 @@
 import random
-from urllib import request
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
@@ -7,10 +6,12 @@ from django.core.mail import EmailMessage
 from django.db import IntegrityError
 from django.contrib.auth import login,logout, authenticate
 from django.views.generic import CreateView
-import user
-from user.models import Tag, Post, Comments
 from .forms import SignUpForm, LoginForm, PostForm
 from .models import Post
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .serializers import PostSerializer
+
 
 def verify(request):
     username = request.session['username']
@@ -102,11 +103,14 @@ class new_post(CreateView):
     form_class = PostForm
     template_name= 'user/newpost.html'
     
-
-def feed (request):
+@api_view()
+def post_all(request):
     posts = Post.objects.all()
-    return render(request, 'user/feed.html', {'posts' : posts})
+    serializer = PostSerializer(posts, many=True)
+    return Response(serializer.data)
 
-def postdetails(request, post_id):
-    post = get_object_or_404(Post, pk = post_id)
-    return render(request, 'user/details.html', {'post' : post})
+@api_view()
+def post_details(request, post_id):
+    post = get_object_or_404(pk=post_id)
+    serializer = PostSerializer(post)
+    return Response(serializer.data)

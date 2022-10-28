@@ -12,7 +12,6 @@ class Post(models.Model):
     text = models.TextField()
     image = models.ImageField(blank=True, upload_to = 'user/images/')
     bump = models.IntegerField()
-    time = models.DateTimeField(auto_now_add=True)
     date = models.DateField()
     '''author = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE
