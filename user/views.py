@@ -9,7 +9,7 @@ from .forms import SignUpForm, LoginForm, PostForm
 from .models import Post, Comments
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import PostSerializer, CommentSerializer, CommentText
+from .serializers import PostSerializer, CommentSerializer, jsonString
 
 
 def verify(request):
@@ -110,7 +110,6 @@ def post_all(request):
     return Response({'allposts': serializer.data, 'test': user.username})
 
 @api_view(['GET', 'POST'])
-
 def post_details(request, post_id):
     obj = get_object_or_404(Post, pk=post_id)
     post = PostSerializer(obj)
@@ -119,7 +118,7 @@ def post_details(request, post_id):
         comments = CommentSerializer(obj, many=True)
         return Response({'post': post.data, 'comments': comments.data})
     if request.method == "POST":
-        tmep = CommentText(data=request.data)
+        tmep = jsonString(data=request.data)
         if tmep.is_valid():
             comment_text = tmep.validated_data['text']
             new_comment = Comments.objects.create(text=comment_text, image=None, bump=0, author=request.user, parent=obj)

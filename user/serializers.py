@@ -14,5 +14,5 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comments
         fields = ['text', 'image', 'bump', 'time', 'author', 'parent']
 
-class CommentText(serializers.Serializer):
+class jsonString(serializers.Serializer):
     text = serializers.CharField(max_length=None, allow_blank=False)
