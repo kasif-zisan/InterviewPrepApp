@@ -1,16 +1,15 @@
 import random
 from django.shortcuts import get_object_or_404, redirect, render
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.core.mail import EmailMessage
 from django.db import IntegrityError
 from django.contrib.auth import login,logout, authenticate
 from django.views.generic import CreateView
 from .forms import SignUpForm, LoginForm, PostForm
-from .models import Post
+from .models import Post, Comments
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import PostSerializer
+from .serializers import PostSerializer, CommentSerializer, CommentText
 
 
 def verify(request):
@@ -107,10 +106,26 @@ class new_post(CreateView):
 def post_all(request):
     posts = Post.objects.all()
     serializer = PostSerializer(posts, many=True)
-    return Response(serializer.data)
+    user = request.user
+    return Response({'allposts': serializer.data, 'test': user.username})
 
-@api_view()
+@api_view(['GET', 'POST'])
+
 def post_details(request, post_id):
-    post = get_object_or_404(pk=post_id)
-    serializer = PostSerializer(post)
-    return Response(serializer.data)
+    obj = get_object_or_404(Post, pk=post_id)
+    post = PostSerializer(obj)
+    if request.method == "GET":
+        obj = Comments.objects.filter(parent=post_id)
+        comments = CommentSerializer(obj, many=True)
+        return Response({'post': post.data, 'comments': comments.data})
+    if request.method == "POST":
+        tmep = CommentText(data=request.data)
+        if tmep.is_valid():
+            comment_text = tmep.validated_data['text']
+            new_comment = Comments.objects.create(text=comment_text, image=None, bump=0, author=request.user, parent=obj)
+            new_comment.save()
+        else:
+            print("this is truly sad")
+        obj = Comments.objects.filter(parent=post_id)
+        comments = CommentSerializer(obj, many=True)
+        return Response({'post': post.data, 'comments': comments.data})
