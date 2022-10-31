@@ -1,1 +1,1 @@
-web: gunicorn interviewprepappp.wsgi --log-file -
+web: gunicorn interview_app.wsgi --log-file -
