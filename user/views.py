@@ -1,4 +1,6 @@
+from cgitb import text
 import random
+from turtle import title, update
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.models import User
 from django.core.mail import EmailMessage
@@ -9,7 +11,8 @@ from .forms import SignUpForm, LoginForm, PostForm
 from .models import Post, Comments
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import PostSerializer, CommentSerializer, jsonString
+from .serializers import PostSerializer, CommentSerializer, jsonString, postString
+import datetime
 
 
 def verify(request):
@@ -97,10 +100,27 @@ def about(request):
         #post.objects.create()
     return render(request, 'user/newpost.html')'''
 
-class new_post(CreateView):
+'''class new_post(CreateView):
     model = Post
     form_class = PostForm
     template_name= 'user/newpost.html'
+    '''
+
+@api_view(['GET', 'POST'])
+def new_post(request):
+    if request.method  == 'POST':
+        temp = postString(data=request.data)
+        if temp.is_valid():
+            post_title = temp.validated_data['title']
+            post_text = temp.validated_data['text']
+            new_post = Post.objects.create(title=post_title, text = post_text, image = None, bump = 0, author = request.user)
+            new_post.save()
+        post = postString()
+        return Response({'newpost': post.data})
+    if request.method == 'GET':
+        post = postString()
+        return Response({'newpost': post.data})
+
     
 @api_view()
 def post_all(request):
@@ -109,7 +129,7 @@ def post_all(request):
     user = request.user
     return Response({'allposts': serializer.data, 'test': user.username})
 
-@api_view(['GET', 'POST'])
+@api_view(['GET', 'POST', 'PUT'])
 def post_details(request, post_id):
     obj = get_object_or_404(Post, pk=post_id)
     post = PostSerializer(obj)
@@ -128,3 +148,14 @@ def post_details(request, post_id):
         obj = Comments.objects.filter(parent=post_id)
         comments = CommentSerializer(obj, many=True)
         return Response({'post': post.data, 'comments': comments.data})
+    if request.method == "PUT":
+        temp = postString(data=request.data)
+        if temp.is_valid():
+            post_title = temp.validated_data['title']
+            post_text = temp.validated_data['text']
+            Post.objects.filter(pk = post_id).update(title=post_title, text = post_text, bump = 0, author = request.user)
+        obj = Comments.objects.filter(parent=post_id)
+        comments = CommentSerializer(obj, many=True)
+        postobj = get_object_or_404(Post, pk=post_id)
+        postget = PostSerializer(postobj)
+        return Response({'post': postget.data, 'comments': comments.data})

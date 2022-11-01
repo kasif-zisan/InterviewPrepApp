@@ -8,6 +8,7 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ['title', 'text', 'image', 'date', 'bump', 'author']
+        #fields = ['title', 'text', 'image', 'bump', 'author']
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -16,3 +17,9 @@ class CommentSerializer(serializers.ModelSerializer):
 
 class jsonString(serializers.Serializer):
     text = serializers.CharField(max_length=None, allow_blank=False)
+
+class postString(serializers.Serializer):
+    title = serializers.CharField(max_length=None, allow_blank=False)
+    text = serializers.CharField(max_length=None, allow_blank=False)
+    #image = serializers.ImageField(blank=True, upload_to = 'user/images/')
+
