@@ -1,18 +1,17 @@
-from django.urls import path, include
+from django.urls import path
 from user import views
-from .views import new_post
 
 
 urlpatterns = [
-    path('',views.home, name="home"),
-    path('signup/',views.signUp, name="signup"),
-    path('logout/',views.logOut, name='logout'),
-    path('login/', views.logIn, name='login'),
-    path('profile/', views.profile, name='profile'),
-    path('about/', views.about, name='about'),
-    #path('newpost/', new_post.as_view(), name='new-post'),
-    path('newpost/', views.new_post, name='new-post'),
-    path('feed/',views.post_all, name='feed'),
-    path('post/<int:post_id>/', views.post_details, name = 'details'),
-    #path('verify/', views.verify, name='verify')
+    path('', views.Home.as_view(), name="home"),
+    path('signup/', views.SignUp.as_view(), name="signup"),
+    path('verify/', views.Verify.as_view(), name='verify'),
+    path('login/', views.LogIn.as_view(), name='login'),
+    path('logout/', views.LogOut.as_view(), name='logout'),
+    path('profile/', views.Profile.as_view(), name='profile'),
+    path('about/', views.About.as_view(), name='about'),
+    path('newpost/', views.NewPost.as_view(), name='new-post'),
+    path('feed/', views.PostAll.as_view(), name='feed'),
+    path('post/<int:post_id>/', views.PostDetails.as_view(), name = 'details'),
+    
 ]

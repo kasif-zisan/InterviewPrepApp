@@ -1,25 +1,37 @@
-from unittest.util import _MAX_LENGTH
-from urllib import request
 from rest_framework import serializers
-
 from user.models import Post, Comments
+
 
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
-        fields = ['title', 'text', 'image', 'date', 'bump', 'author']
-        #fields = ['title', 'text', 'image', 'bump', 'author']
+        fields = ['title', 'text', 'date', 'bump', 'author']
+
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comments
-        fields = ['text', 'image', 'bump', 'time', 'author', 'parent']
+        fields = ['text', 'bump', 'time', 'author', 'parent']
 
-class jsonString(serializers.Serializer):
+
+class StringSerializer(serializers.Serializer):
     text = serializers.CharField(max_length=None, allow_blank=False)
 
-class postString(serializers.Serializer):
-    title = serializers.CharField(max_length=None, allow_blank=False)
-    text = serializers.CharField(max_length=None, allow_blank=False)
-    #image = serializers.ImageField(blank=True, upload_to = 'user/images/')
 
+class EditPostSerializer(serializers.Serializer):
+    title = serializers.CharField(max_length=None)
+    text = serializers.CharField(max_length=None)
+
+
+class LogInSerializer(serializers.Serializer):
+    username = serializers.CharField(max_length=None)
+    password = serializers.CharField(max_length=None)
+
+
+class SignUpSerializer(serializers.Serializer):
+    username = serializers.CharField(max_length=None)
+    name = serializers.CharField(max_length=None)
+    email = serializers.CharField(max_length=None)
+    worksAt = serializers.CharField(max_length=None)
+    password = serializers.CharField(max_length=None)
+    passwordConfirm = serializers.CharField(max_length=None)

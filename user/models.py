@@ -13,12 +13,8 @@ class Tag(models.Model):
 class Post(models.Model):
     title = models.CharField(max_length=256)
     text = models.TextField()
-    image = models.ImageField(blank=True, upload_to = 'user/images/')
     bump = models.IntegerField()
     date = models.DateTimeField(default=timezone.now)
-    '''author = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE
-    )'''
     author = models.ForeignKey(
         User, on_delete=models.CASCADE
     )
@@ -26,14 +22,10 @@ class Post(models.Model):
         Tag, related_name = 'post', blank=True
     )'''
 
-    def get_absolute_url(self):
-        return reverse("feed")
-    
  
  
 class Comments(models.Model):
     text = models.CharField(max_length=256)
-    image = models.ImageField(blank=True)
     bump = models.IntegerField()
     time = models.DateTimeField(default=timezone.now)
     '''author = models.ForeignKey(
@@ -48,6 +40,7 @@ class Comments(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete= models.CASCADE)
+    name = models.CharField(max_length=256, default="<anon>")
     works_at = models.CharField(max_length=256)
 
 
