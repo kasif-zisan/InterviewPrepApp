@@ -13,7 +13,7 @@ import random
 
 class Home(APIView):
     def get(self, request):
-        return Response()
+        return Response({"portfolio": "hi. go suck your own dick. Thank you."})
 
 def verify(request):
     username = request.session['username']
@@ -39,7 +39,10 @@ def verify(request):
 
 class Verify(APIView):
     def get(self, request):
-        self.__sendVerificationCode()
+        verification_code = str(random.randrange(1000,9999))
+        request.session['verification_code'] = verification_code
+        send_code = EmailMessage("Activation Code", "Your activation code is " + verification_code, to=[email])
+        send_code.send()
         return Response()
 
     def post(self, request):
@@ -63,13 +66,6 @@ class Verify(APIView):
                 return redirect('profile')
             else:
                 return Response({"error": "aam patay pudina, tore ami chudina"})
-            
-
-    def __sendVerificationCode(self, request):
-        verification_code = str(random.randrange(1000,9999))
-        request.session['verification_code'] = verification_code
-        send_code = EmailMessage("Activation Code", "Your activation code is " + verification_code, to=[email])
-        send_code.send()
 
 
 class SignUp(APIView):
@@ -157,7 +153,11 @@ class PostAll(ListAPIView):
 
 class PostDetails(APIView):
     def get(self, request, post_id):
-        self.__show(post_id)
+        postObj = get_object_or_404(Post, pk=post_id)
+        postSerializer = PostSerializer(postObj)
+        commentsObjAll = Comments.objects.filter(parent=postObj)
+        commentsSerializerAll = CommentSerializer(commentsObjAll, many=True)
+        return Response({'post': postSerializer.data, 'comments': commentsSerializerAll.data})
     
     def post(self, request, post_id):
         postObj = get_object_or_404(Post, pk=post_id)
@@ -169,7 +169,10 @@ class PostDetails(APIView):
         else:
             print('i dont know what went wrong tbh')
         
-        self.__show(post_id)
+        postSerializer = PostSerializer(postObj)
+        commentsObjAll = Comments.objects.filter(parent=postObj)
+        commentsSerializerAll = CommentSerializer(commentsObjAll, many=True)
+        return Response({'post': postSerializer.data, 'comments': commentsSerializerAll.data})
     
     def put(self, request, post_id):
         editPostSerializer = EditPostSerializer(data=request.data)
@@ -182,11 +185,9 @@ class PostDetails(APIView):
                 Post.objects.filter(pk = post_id).update(title = post_title)
             else:
                 Post.objects.filter(pk = post_id).update(title=post_title, text = post_text)
-        self.__show(post_id)
         
-    def __show(self, id):
-        postObj = get_object_or_404(Post, pk=id)
+        postObj = get_object_or_404(Post, pk=post_id)
         postSerializer = PostSerializer(postObj)
-        commentsObjAll = Comments.objects.filter(parent=id)
+        commentsObjAll = Comments.objects.filter(parent=postObj)
         commentsSerializerAll = CommentSerializer(commentsObjAll, many=True)
         return Response({'post': postSerializer.data, 'comments': commentsSerializerAll.data})
