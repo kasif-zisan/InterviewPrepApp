@@ -15,27 +15,6 @@ class Home(APIView):
     def get(self, request):
         return Response({"portfolio": "hi. go suck your own dick. Thank you."})
 
-def verify(request):
-    username = request.session['username']
-    password = request.session['password']
-    email = request.session['email']
-    if request.method == "GET":
-        verification_code = str(random.randrange(1000,9999))
-        request.session['verification_code'] = verification_code
-        send_code = EmailMessage("Activation Code", "Your activation code is " + verification_code, to=[email])
-        send_code.send()
-        return render(request, 'user/verify.html')
-    else:
-        code = request.session['verification_code']
-        if request.POST['check'] == code:
-            new_user = User.objects.create_user(username, password = password)
-            new_user.save()
-            profile = Profile.objects.create(works_at = request.POST['works_at'], user = new_user)
-            profile.save()
-            login(request, new_user)
-            return redirect('profile')
-    return render(request, 'user/verify.html')
-
 
 class Verify(APIView):
     def get(self, request):
