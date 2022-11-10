@@ -1,4 +1,5 @@
 from cgitb import text
+import email
 import random
 from turtle import title, update
 from django.shortcuts import get_object_or_404, redirect, render
@@ -8,14 +9,17 @@ from django.db import IntegrityError
 from django.contrib.auth import login,logout, authenticate
 from django.views.generic import CreateView
 from .forms import SignUpForm, LoginForm, PostForm
-from .models import Post, Comments
+from .models import Post, Comments, Profile
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .serializers import PostSerializer, CommentSerializer, jsonString, postString
 import datetime
 
 
-def verify(request):
+def home(request):
+    return render(request, 'user/home.html')
+#commenting this out just to avoid email verification
+'''def verify(request):
     username = request.session['username']
     password = request.session['password']
     email = request.session['email']
@@ -37,10 +41,6 @@ def verify(request):
             login(request, new_user)
             return redirect('profile')
     return render(request, 'user/verify.html')
-
-def home(request):
-    return render(request, 'user/home.html')
-
 
 def signUp(request):
     if request.method=="GET":
@@ -64,7 +64,24 @@ def signUp(request):
         else:
             return render(request, 'user/signUp.html', {'form' : SignUpForm(), 'error': "Passwords did not match. Please input the passwords correctly."})
 
+'''
+def signUp(request):
+    if request.method=="GET":
+        return render(request, 'user/signUp.html', {'form' : SignUpForm()})
+    else:
+        try:
+            if request.POST['password1'] == request.POST['password2']:
+                new_user = User.objects.create_user(request.POST['username'], password = request.POST['password1'], email = request.POST['email'])
+                new_user.save()
+                profile = Profile.objects.create(works_at = request.POST['works_at'], user = new_user)
+                profile.save()
+                login(request, new_user)
+                return redirect('profile')
+        except IntegrityError:
+             return render(request, 'user/signUp.html', {'form' : SignUpForm(), 'error': "This username is already taken. Please try a new username."})
 
+        else:
+            return render(request, 'user/signUp.html', {'form' : SignUpForm(), 'error': "Passwords did not match. Please input the passwords correctly."})
 def logIn(request):
     if request.method=="GET":
         return render(request, 'user/login.html', {'form' : LoginForm()})

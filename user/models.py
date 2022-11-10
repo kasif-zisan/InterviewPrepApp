@@ -3,6 +3,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
 from django.utils import timezone
+from django.db.models.signals import post_save
+from django.dispatch import receiver
  
 class Tag(models.Model):
     tag_name = models.CharField(max_length=256)
@@ -43,4 +45,10 @@ class Comments(models.Model):
     parent = models.ForeignKey(
         Post, on_delete=models.CASCADE
     )
+
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete= models.CASCADE)
+    works_at = models.CharField(max_length=256)
+
+
     
