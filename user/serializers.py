@@ -1,27 +1,9 @@
 from rest_framework import serializers
-from user.models import Post, Comments
-
-
-class PostSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Post
-        fields = ['title', 'text', 'date', 'bump', 'author']
-
-
-class CommentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Comments
-        fields = ['text', 'bump', 'time', 'author', 'parent']
+#from user.models import Post, Comments
 
 
 class StringSerializer(serializers.Serializer):
     text = serializers.CharField(max_length=None, allow_blank=False)
-
-
-class EditPostSerializer(serializers.Serializer):
-    title = serializers.CharField(max_length=None)
-    text = serializers.CharField(max_length=None)
-
 
 class LogInSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=None)

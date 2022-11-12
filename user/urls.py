@@ -10,8 +10,6 @@ urlpatterns = [
     path('logout/', views.LogOut.as_view(), name='logout'),
     path('profile/', views.Profile.as_view(), name='profile'),
     path('about/', views.About.as_view(), name='about'),
-    path('newpost/', views.NewPost.as_view(), name='new-post'),
-    path('feed/', views.PostAll.as_view(), name='feed'),
-    path('post/<int:post_id>/', views.PostDetails.as_view(), name = 'details'),
+    
     
 ]
