@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.core.mail import EmailMessage
 from django.db import IntegrityError
 from django.contrib.auth import login,logout, authenticate
-from .models import Post, Comments, Profile
+from .models import Post, Comments, UserProfile
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
@@ -20,6 +20,7 @@ class Verify(APIView):
     def get(self, request):
         verification_code = str(random.randrange(1000,9999))
         request.session['verification_code'] = verification_code
+        email = request.session['email']
         send_code = EmailMessage("Activation Code", "Your activation code is " + verification_code, to=[email])
         send_code.send()
         return Response()
@@ -39,7 +40,7 @@ class Verify(APIView):
                 new_user = User.objects.create_user(username, password=password, email=email)
                 new_user.save()
 
-                profile = Profile.objects.create(works_at=worksAt, name=name, user=new_user)
+                profile = UserProfile.objects.create(works_at=worksAt, name=name, user=new_user)
                 profile.save()
                 
                 return redirect('profile')
