@@ -1,0 +1,29 @@
+login info -
+
+{"username" : "Hello",
+"password" : "hello"
+}
+
+posting -
+
+{"title" : "new post",
+"text" : "test post for new app"
+}
+
+commenting -
+
+{"text" : "comment"}
+
+sign up - 
+
+{"username" : "newuser",
+"name" : "new",
+"email" : "zisan321@gmail.com",
+"worksAt" : "google",
+"password" : "aezakmi12",
+"passwordConfirm" : "aezakmi12"
+}
+
+verify - 
+
+{"text" : ""}
