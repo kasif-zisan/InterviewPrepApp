@@ -5,9 +5,9 @@ from rest_framework_nested import routers
 from post import views
 
 postRouter = routers.SimpleRouter()
-postRouter.register('', views.PostViewSet)
-commentRouter = routers.NestedSimpleRouter(postRouter, '', )
-commentRouter.register('comment', views.CommentViewSet)
+postRouter.register('post', views.PostViewSet)
+commentRouter = routers.NestedSimpleRouter(postRouter, 'post', lookup='post')
+commentRouter.register('comment', views.CommentViewSet, basename='comment')
 
 urlpatterns = [
     path('', include(postRouter.urls)),

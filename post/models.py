@@ -26,7 +26,7 @@ class PostImage(models.Model):
     image = models.ImageField(upload_to='post/image')
 
 
-class Comments(models.Model):
+class Comment(models.Model):
     text = models.TextField()
     bump = models.IntegerField(default=0)
     time = models.DateTimeField(default=timezone.now)
