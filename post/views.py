@@ -1,8 +1,10 @@
 from post.models import Post, Comment
+from post.serializers import PostSerializer, CommentSerializer
+from post.pagination import Pagination
 from rest_framework.generics import CreateAPIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.filters import SearchFilter, OrderingFilter
-from .serializers import PostSerializer, CommentSerializer
+from rest_framework.pagination import PageNumberPagination
 
 class NewPost(CreateAPIView):
     queryset = Post.objects.all()
@@ -14,6 +16,7 @@ class PostViewSet(ModelViewSet):
     filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ['title', 'text', 'author__username']
     ordering_fields = ['bump', 'date']
+    pagination_class = Pagination
 
 class CommentViewSet(ModelViewSet):
     serializer_class = CommentSerializer
