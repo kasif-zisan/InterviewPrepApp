@@ -9,7 +9,7 @@ class Tag(models.Model):
 class Post(models.Model):
     title = models.CharField(max_length=256)
     text = models.TextField()
-    bump = models.IntegerField()
+    bump = models.IntegerField(default=0)
     date = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(
         User, on_delete=models.CASCADE
@@ -26,9 +26,9 @@ class PostImage(models.Model):
     image = models.ImageField(upload_to='post/image')
 
 
-class Comments(models.Model):
-    text = models.CharField(max_length=256)
-    bump = models.IntegerField()
+class Comment(models.Model):
+    text = models.TextField()
+    bump = models.IntegerField(default=0)
     time = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(
         User, on_delete=models.CASCADE

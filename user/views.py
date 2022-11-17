@@ -7,11 +7,12 @@ from .models import UserProfile
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
-from .serializers import StringSerializer, LogInSerializer, SignUpSerializer
+from .serializers import UserSerializer, StringSerializer, LogInSerializer, SignUpSerializer
 import random
 
 class Home(APIView):
     def get(self, request):
+        print(request.user)
         return Response({"Zarcode": "It is the platform for interview preparation in Bangladesh"})
 
 
