@@ -102,7 +102,9 @@ class LogOut(APIView):
 
 class Profile(APIView):
     def get(self, request):
-        return Response()
+        name = request.user.username
+        
+        return Response({'identification': name})
 
 
 class About(APIView):
