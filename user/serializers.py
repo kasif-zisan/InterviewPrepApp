@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-#from user.models import Post, Comments
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -10,6 +10,7 @@ class UserSerializer(serializers.ModelSerializer):
 
 class StringSerializer(serializers.Serializer):
     text = serializers.CharField(max_length=None, allow_blank=False)
+
 
 class LogInSerializer(serializers.Serializer):
     username = serializers.CharField(max_length=None)
