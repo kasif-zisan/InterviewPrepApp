@@ -15,13 +15,19 @@ class NewPost(CreateAPIView):
 
 
 class PostViewSet(ModelViewSet):
-    queryset = Post.objects.all()
     serializer_class = PostSerializer
     filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ['title', 'text', 'author__username']
     ordering_fields = ['bump', 'date']
     pagination_class = Pagination
     permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def get_queryset(self):
+        queryset = Post.objects.all()
+        category = self.request.query_params.get('category')
+        if category:
+            queryset = queryset.filter(category=category)
+        return queryset
 
 
 class CommentViewSet(ModelViewSet):
