@@ -1,26 +1,21 @@
 from rest_framework import serializers
+from .models import UserProfile, UserImage
 from django.contrib.auth.models import User
+
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ['name', 'works_at', 'gender', 'avatar']
+
+
+class UserImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserImage
+        fields = ['image']
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['username']
-
-
-class StringSerializer(serializers.Serializer):
-    text = serializers.CharField(max_length=None, allow_blank=False)
-
-
-class LogInSerializer(serializers.Serializer):
-    username = serializers.CharField(max_length=None)
-    password = serializers.CharField(max_length=None)
-
-
-class SignUpSerializer(serializers.Serializer):
-    username = serializers.CharField(max_length=None)
-    name = serializers.CharField(max_length=None)
-    email = serializers.CharField(max_length=None)
-    worksAt = serializers.CharField(max_length=None)
-    password = serializers.CharField(max_length=None)
-    passwordConfirm = serializers.CharField(max_length=None)
+        fields = ['id', 'email', 'is_active']

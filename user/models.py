@@ -3,9 +3,18 @@ from django.contrib.auth.models import User
 
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=256, default="<Zar>")
-    works_at = models.CharField(max_length=256)
+    parent = models.OneToOneField(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=256, default="<anon>")
+    works_at = models.CharField(max_length=256, blank=True)
+    #birth_date = models.DateField(blank=True, default='2-2-2001')
+    gender = models.CharField(max_length=3,
+                              choices=[
+                                  ('m', 'Male'),
+                                  ('f', 'Female'),
+                                  ('o', 'Other')
+                              ], default='o')
+    avatar = models.ImageField(
+        upload_to='user/image', default='user/default.png')
 
 
 class UserImage(models.Model):

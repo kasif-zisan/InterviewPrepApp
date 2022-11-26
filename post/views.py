@@ -1,10 +1,9 @@
-from post.models import Post, Comment
-from post.serializers import PostSerializer, CommentSerializer
+from post.models import Post, Comment, PostImage, CommentImage
+from post.serializers import PostSerializer, CommentSerializer, PostImageSerializer, CommentImageSerializer
 from post.pagination import Pagination
 from rest_framework.generics import CreateAPIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.filters import SearchFilter, OrderingFilter
-from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 
 
@@ -30,6 +29,14 @@ class PostViewSet(ModelViewSet):
         return queryset
 
 
+class PostImageViewSet(ModelViewSet):
+    serializer_class = PostImageSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def get_queryset(self):
+        return PostImage.objects.filter(parent_id=self.kwargs['post_pk'])
+
+
 class CommentViewSet(ModelViewSet):
     serializer_class = CommentSerializer
     filter_backends = [OrderingFilter]
@@ -41,3 +48,11 @@ class CommentViewSet(ModelViewSet):
 
     def get_serializer_context(self):
         return {'parent_id': self.kwargs['post_pk']}
+
+
+class CommentImageViewSet(ModelViewSet):
+    serializer_class = CommentImageSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
+    def get_queryset(self):
+        return CommentImage.objects.filter(parent_id=self.kwargs['comment_pk'])
