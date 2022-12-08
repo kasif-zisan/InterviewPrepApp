@@ -62,13 +62,13 @@ class EndpointList(APIView):
                 'current user profile': 'http://127.0.0.1:8000/api/user/profile/<user__pk>'
             },
             'post api': {
-                'all post/ create': 'http://127.0.0.1:8000/api/post',
-                'post retrieve/ update/ delete': 'http://127.0.0.1:8000/api/post/<post__pk>',
-                'post images/create': 'http://127.0.0.1:8000/api/post/<post__pk>/postImage',
+                'all post/ create': 'http://127.0.0.1:8000/api/post/post/',
+                'post retrieve/ update/ delete': 'http://127.0.0.1:8000/api/post/post/<post__pk>',
+                'post images/create': 'http://127.0.0.1:8000/api/post/post/<post__pk>/postImage',
                 'post image retrieve': 'http://127.0.0.1:8000/media/<path>',
 
-                'all comment/ create': 'http://127.0.0.1:8000/api/post/<post__pk>/comment',
-                'comment retrieve/ update/ delete': 'http://127.0.0.1:8000/api/post/<post__pk>/comment/<comment_pk>',
+                'all comment/ create': 'http://127.0.0.1:8000/api/post/post/<post__pk>/comment',
+                'comment retrieve/ update/ delete': 'http://127.0.0.1:8000/api/post/post/<post__pk>/comment/<comment_pk>',
                 'comment images/create': 'http://127.0.0.1:8000/api/comment/<comment__pk>/commentImage',
                 'comment image retrieve': 'http://127.0.0.1:8000/media/<path>'
             }})
