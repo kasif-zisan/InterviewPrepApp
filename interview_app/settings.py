@@ -146,6 +146,10 @@ SIMPLE_JWT = {
 }
 
 DJOSER = {
+    'PASSWORD_RESET_CONFIRM_URL': '#/password-reset/{uid}/{token}',
+    'USERNAME_RESET_CONFIRM_URL': '#/username/reset/confirm/{uid}/{token}',
+    'ACTIVATION_URL': 'activate/{uid}/{token}',
+    'SEND_ACTIVATION_EMAIL': True,
     'SEND_CONFIRMATION_EMAIL': True
 }
 
@@ -156,8 +160,8 @@ MEDIA_ROOT = BASE_DIR / 'media'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'aarnabofficial@gmail.com'
-EMAIL_HOST_PASSWORD = 'kzdprbjngyihauui'
+EMAIL_HOST_USER = 'zarcode347@gmail.com'
+EMAIL_HOST_PASSWORD = 'symglhwqvxqppomr'
 EMAIL_PORT = 587
 
 
