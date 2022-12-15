@@ -3,10 +3,12 @@ from post.models import Post, Comment, PostImage, CommentImage
 
 
 class PostSerializer(serializers.ModelSerializer):
+    name = serializers.CharField(source='author_name')
+
     class Meta:
         model = Post
         fields = ['title', 'text', 'date',
-                  'category', 'tag', 'bump', 'author', 'pk']
+                  'category', 'tag', 'bump', 'author', 'name', 'cover', 'pk']
 
 
 class PostImageSerializer(serializers.ModelSerializer):

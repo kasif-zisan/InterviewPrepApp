@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from .models import UserProfile, UserImage
 from .serializers import UserProfileSerializer, UserImageSerializer
 from rest_framework import status
@@ -10,15 +11,20 @@ from djoser.views import UserViewSet
 
 
 class UserProfileViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, GenericViewSet):
+    queryset = UserProfile
     serializer_class = UserProfileSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
-    def get_queryset(self):
-        queryset = UserProfile.objects.all()
-        user__id = self.request.query_params.get('user__id')
-        if user__id:
-            queryset = queryset.filter(user=user__id)
-        return queryset
+    def get_object(self):
+        lookup_url_kwarg = self.lookup_url_kwarg or self.lookup_field
+
+        assert lookup_url_kwarg in self.kwargs, (
+            (self.__class__.__name__, lookup_url_kwarg)
+        )
+        obj = get_object_or_404(
+            UserProfile, parent__id=self.kwargs[lookup_url_kwarg])
+
+        return obj
 
 
 class UserImageViewSet(ModelViewSet):

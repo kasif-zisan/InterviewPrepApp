@@ -16,10 +16,10 @@ class Post(models.Model):
     author = models.ForeignKey(
         User, on_delete=models.CASCADE
     )
-    QUESTIONS = 'qus'
-    ENTERTAINMENT = 'ent'
-    EXPERIENCES = 'exp'
-    category = models.CharField(max_length=3,
+    QUESTIONS = 'questions'
+    ENTERTAINMENT = 'entertainment'
+    EXPERIENCES = 'experiences'
+    category = models.CharField(max_length=20,
                                 choices=[
                                     (QUESTIONS, 'questions'),
                                     (ENTERTAINMENT, 'entertainment'),
@@ -28,6 +28,12 @@ class Post(models.Model):
     tag = models.ManyToManyField(
         Tag, related_name='post', blank=True
     )
+    cover = models.ImageField(upload_to='post/image',
+                              default='post/image/default.jpg')
+
+    def author_name(self):
+        obj = User.objects.get(pk=self.author.pk)
+        return obj.username
 
 
 class PostImage(models.Model):
