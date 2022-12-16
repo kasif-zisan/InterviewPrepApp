@@ -7,12 +7,12 @@ class UserProfile(models.Model):
     name = models.CharField(max_length=256, default="<anon>")
     works_at = models.CharField(max_length=256, blank=True)
     #birth_date = models.DateField(blank=True, default='2-2-2001')
-    gender = models.CharField(max_length=3,
+    gender = models.CharField(max_length=10,
                               choices=[
-                                  ('m', 'Male'),
-                                  ('f', 'Female'),
-                                  ('o', 'Other')
-                              ], default='o')
+                                  ('Male', 'Male'),
+                                  ('Female', 'Female'),
+                                  ('Other', 'Other')
+                              ], default='Male')
     avatar = models.ImageField(
         upload_to='user/image', default='user/default.png')
 

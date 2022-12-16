@@ -5,7 +5,7 @@ from rest_framework.generics import CreateAPIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
-
+from rest_framework.parsers import FormParser, MultiPartParser, JSONParser
 
 class NewPost(CreateAPIView):
     queryset = Post.objects.all()
@@ -31,7 +31,8 @@ class PostViewSet(ModelViewSet):
 
 class PostImageViewSet(ModelViewSet):
     serializer_class = PostImageSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    #permission_classes = [IsAuthenticatedOrReadOnly]
+    parser_classes = (FormParser, MultiPartParser, JSONParser)
 
     def get_queryset(self):
         return PostImage.objects.filter(parent_id=self.kwargs['post_pk'])
@@ -52,7 +53,7 @@ class CommentViewSet(ModelViewSet):
 
 class CommentImageViewSet(ModelViewSet):
     serializer_class = CommentImageSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    #permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
         return CommentImage.objects.filter(parent_id=self.kwargs['comment_pk'])

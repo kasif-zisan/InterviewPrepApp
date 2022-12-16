@@ -6,19 +6,19 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ['title', 'text', 'date',
-                  'category', 'tag', 'bump', 'author', 'pk']
+                  'category', 'tag', 'bump', 'author', 'author_name', 'cover', 'pk']
 
 
 class PostImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = PostImage
-        fields = ['image']
+        fields = ['parent','image']
 
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
-        fields = ['text', 'bump', 'time', 'author']
+        fields = ['text', 'bump', 'time', 'author', 'author_name']
 
     def create(self, validated_data):
         parent_id = self.context['parent_id']
