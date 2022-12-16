@@ -31,6 +31,7 @@ class Post(models.Model):
     cover = models.ImageField(upload_to='post/image',
                               default='post/image/default.jpg')
 
+
     def author_name(self):
         obj = User.objects.get(pk=self.author.pk)
         return obj.username
