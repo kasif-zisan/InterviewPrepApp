@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
-        fields = ['name', 'works_at', 'gender', 'avatar', 'parent']
+        fields = ['name', 'works_at', 'lives', 'gender', 'avatar', 'parent', 'coverPhoto']
 
 
 class UserImageSerializer(serializers.ModelSerializer):

@@ -54,7 +54,7 @@ class Comment(models.Model):
     parent = models.ForeignKey(
         Post, on_delete=models.CASCADE
     )
-    #image =  models.ImageField(upload_to='comment/image', blank = True, null = True)
+    image =  models.ImageField(upload_to='comment/image', blank = True, null = True, default= None)
     def author_name(self):
         obj = User.objects.get(pk=self.author.pk)
         return obj.username

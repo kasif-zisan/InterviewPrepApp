@@ -6,6 +6,7 @@ class UserProfile(models.Model):
     parent = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=256, default="<anon>")
     works_at = models.CharField(max_length=256, blank=True)
+    lives = models.CharField(max_length=256, blank=True)
     #birth_date = models.DateField(blank=True, default='2-2-2001')
     gender = models.CharField(max_length=10,
                               choices=[
@@ -14,6 +15,8 @@ class UserProfile(models.Model):
                                   ('Other', 'Other')
                               ], default='Male')
     avatar = models.ImageField(
+        upload_to='user/image', default='user/default.png')
+    coverPhoto = models.ImageField(
         upload_to='user/image', default='user/default.png')
 
 
