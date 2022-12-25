@@ -17,7 +17,7 @@ class UserProfile(models.Model):
     avatar = models.ImageField(
         upload_to='user/image', default='user/default.png')
     coverPhoto = models.ImageField(
-        upload_to='user/image', default='user/default.png')
+        upload_to='user/image', default='user/cover.png')
 
 
 class UserImage(models.Model):

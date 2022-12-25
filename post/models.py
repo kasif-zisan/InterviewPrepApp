@@ -35,6 +35,21 @@ class Post(models.Model):
     def author_name(self):
         obj = User.objects.get(pk=self.author.pk)
         return obj.username
+    
+    '''def date(self):
+        return str(self.date_time).split()[0]
+    
+    def time(self):
+        time = list(str(self.date_time).split()[1].split(':'))
+        time[2] = time[2].split('.')[0]
+        if int(time[0]) > 12:
+            time[0] = str(int(time[0]) - 12)
+            time_str = ":".join(each for each in time[:3]) + ' pm'
+        else:
+            time_str = ":".join(each for each in time[:3]) + ' am'
+        
+        return time_str'''
+
 
 
 class PostImage(models.Model):
@@ -47,7 +62,7 @@ class PostImage(models.Model):
 class Comment(models.Model):
     text = models.TextField()
     bump = models.IntegerField(default=0)
-    time = models.DateTimeField(default=timezone.now)
+    date = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(
         User, on_delete=models.CASCADE
     )
@@ -58,6 +73,20 @@ class Comment(models.Model):
     def author_name(self):
         obj = User.objects.get(pk=self.author.pk)
         return obj.username
+
+    ''' def date(self):
+        return str(self.date_time).split()[0]
+    
+    def time(self):
+        time = list(str(self.date_time).split()[1].split(':'))
+        time[2] = time[2].split('.')[0]
+        if int(time[0]) > 12:
+            time[0] = str(int(time[0]) - 12)
+            time_str = ":".join(each for each in time[:3]) + ' pm'
+        else:
+            time_str = ":".join(each for each in time[:3]) + ' am'
+        
+        return time_str'''
 
 
 class CommentImage(models.Model):

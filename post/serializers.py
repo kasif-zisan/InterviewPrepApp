@@ -18,7 +18,7 @@ class PostImageSerializer(serializers.ModelSerializer):
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
-        fields = ['text', 'bump', 'time', 'author', 'author_name', 'image']
+        fields = ['text', 'bump', 'date', 'author', 'author_name', 'image']
 
     def create(self, validated_data):
         parent_id = self.context['parent_id']
