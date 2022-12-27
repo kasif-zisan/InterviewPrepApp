@@ -1,7 +1,7 @@
-from post.models import Post, Comment, PostImage, CommentImage
-from post.serializers import PostSerializer, CommentSerializer, PostImageSerializer, CommentImageSerializer
+from post.models import Post, Comment, PostImage, CommentImage, PostReport
+from post.serializers import PostSerializer, CommentSerializer, PostImageSerializer, CommentImageSerializer, PostReportSerializer
 from post.pagination import Pagination
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import CreateAPIView, ListCreateAPIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
@@ -11,6 +11,11 @@ class NewPost(CreateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticated]
+
+
+class ReportPost(ListCreateAPIView):
+    queryset = PostReport.objects.all()
+    serializer_class = PostReportSerializer
 
 
 class PostViewSet(ModelViewSet):

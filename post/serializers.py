@@ -1,5 +1,6 @@
+from dataclasses import fields
 from rest_framework import serializers
-from post.models import Post, Comment, PostImage, CommentImage
+from post.models import Post, Comment, PostImage, CommentImage, PostReport
 
 
 class PostSerializer(serializers.ModelSerializer):
@@ -29,3 +30,8 @@ class CommentImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = CommentImage
         fields = ['image']
+
+class PostReportSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PostReport
+        fields = ['postLink', 'type'] 

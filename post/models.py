@@ -94,3 +94,15 @@ class CommentImage(models.Model):
         Post, on_delete=models.CASCADE
     )
     image = models.ImageField(upload_to='comment/image')
+
+class PostReport(models.Model) :
+    postLink = models.URLField(max_length=200)
+    Hate_Speech= 'hate'
+    Spam = 'spam'
+    Irrelevant = 'irrelevant'
+    type = models.CharField(max_length=20,
+                                choices=[
+                                    (Hate_Speech, 'hate'),
+                                    (Spam, 'spam'),
+                                    (Irrelevant, 'irrelevant')
+                                ], default=Spam)

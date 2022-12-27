@@ -19,5 +19,6 @@ urlpatterns = [
     path('', include(postRouter.urls)),
     path('', include(commentRouter.urls)),
     path('', include(commentImageRouter.urls)),
+    path('report/', views.ReportPost.as_view(), name="report"),
     path('newpost/', views.NewPost.as_view(), name='new-post'),
 ]
