@@ -16,6 +16,7 @@ class NewPost(CreateAPIView):
 class ReportPost(ListCreateAPIView):
     queryset = PostReport.objects.all()
     serializer_class = PostReportSerializer
+    #permission_classes = [IsAuthenticated]
 
 
 class PostViewSet(ModelViewSet):

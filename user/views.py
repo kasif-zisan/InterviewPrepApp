@@ -1,4 +1,4 @@
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from .models import UserProfile, UserImage
 from .serializers import UserProfileSerializer, UserImageSerializer
 from rest_framework import status
@@ -50,7 +50,7 @@ class ActivateUser(UserViewSet):
 
     def activation(self, request, uid, token, *args, **kwargs):
         super().activation(request, *args, **kwargs)
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        return render(request, "user/return.html")
 
 
 class EndpointList(APIView):
